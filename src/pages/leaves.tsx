@@ -1,310 +1,156 @@
-import { Calendar, Clock, CheckCircle, XCircle, FileText, Plus } from "lucide-react";
-import { Header } from "../common-components/header";
-import { useState } from "react";
-import Button from "../common-components/button";
+import React, { useState } from 'react';
+import Layout from '../common-components/layout/Layout';
 
 const Leaves = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  
-  const leaveData = [
-    {
-      type: "Casual Leave",
-      from: "2023-03-15",
-      to: "2023-03-16",
-      days: 2,
-      reason: "Family event",
-      status: "Approved"
-    },
-    {
-      type: "Sick Leave",
-      from: "2023-04-10",
-      to: "2023-04-10",
-      days: 1,
-      reason: "Not feeling well",
-      status: "Approved"
-    },
-    {
-      type: "Annual Leave",
-      from: "2023-05-20",
-      to: "2023-05-24",
-      days: 5,
-      reason: "Vacation",
-      status: "Pending"
-    },
-    {
-      type: "Casual Leave",
-      from: "2023-06-05",
-      to: "2023-06-05",
-      days: 1,
-      reason: "Personal work",
-      status: "Rejected"
-    }
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Approved":
-        return "bg-green-100 text-green-800";
-      case "Pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "Rejected":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
+  const [leaveRequests, setLeaveRequests] = useState([
+    { type: 'Casual Leave', from: '2023-03-15', to: '2023-03-16', days: 2, reason: 'Family event', status: 'Approved' },
+    { type: 'Sick Leave', from: '2023-04-10', to: '2023-04-10', days: 1, reason: 'Not feeling well', status: 'Approved' },
+    { type: 'Annual Leave', from: '2023-05-20', to: '2023-05-24', days: 5, reason: 'Vacation', status: 'Pending' },
+    { type: 'Casual Leave', from: '2023-06-05', to: '2023-06-05', days: 1, reason: 'Personal work', status: 'Rejected' },
+  ]);
+  const [showModal, setShowModal] = useState(false);
+  const [form, setForm] = useState({ type: '', from: '', to: '', days: 1, reason: '' });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
-
-  const getProgressBarColor = (type: string) => {
-    switch (type) {
-      case "Casual Leave":
-        return "bg-blue-500";
-      case "Sick Leave":
-        return "bg-green-500";
-      case "Annual Leave":
-        return "bg-purple-500";
-      case "Unpaid Leave":
-        return "bg-gray-500";
-      default:
-        return "bg-blue-500";
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('http://localhost:5000/api/leaves/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setLeaveRequests([...leaveRequests, { ...form, status: 'Pending' }]);
+        setShowModal(false);
+        setForm({ type: '', from: '', to: '', days: 1, reason: '' });
+      }
+    } catch (err) {
+      alert('Request failed');
     }
-  };
-
-  const calculateProgress = (used: number, total: number) => {
-    return (used / total) * 100;
   };
 
   return (
-    <div>
-      <Header 
-        title="Leaves" 
-        showSearchBar={false} 
-        searchQuery={searchQuery} 
-        setSearchQuery={setSearchQuery}
-      />
-      <div className="p-6 space-y-4">
-      {/* Header with Breadcrumb and Request Leave Button */}
-      <div className="flex justify-between items-center">
-        <div className="flex items-center text-sm text-gray-500">
-          <span>Dashboard</span>
-          <span className="mx-2">/</span>
-          <span className="text-gray-800 font-medium">Leaves</span>
-        </div>
-        <Button 
-          label="Request Leave"
-          variant="btn-primary"
-          icon={<Plus className="h-4 w-4" />}
-        />
+    <Layout>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Leave Management</h2>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={() => setShowModal(true)}>+ Request Leave</button>
       </div>
-
-      {/* Leave Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-blue-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Available Leaves</p>
-              <p className="text-xl font-semibold text-gray-800 mt-1">18</p>
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <form className="bg-white p-6 rounded shadow w-96" onSubmit={handleSubmit}>
+            <h3 className="text-lg font-bold mb-4">Request Leave</h3>
+            <div className="mb-2">
+              <label className="block mb-1">Type</label>
+              <select name="type" value={form.type} onChange={handleChange} className="w-full border rounded px-2 py-1">
+                <option value="">Select Type</option>
+                <option value="Casual Leave">Casual Leave</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Annual Leave">Annual Leave</option>
+                <option value="Unpaid Leave">Unpaid Leave</option>
+              </select>
             </div>
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <FileText className="h-4 w-4 text-blue-600" />
+            <div className="mb-2">
+              <label className="block mb-1">From</label>
+              <input type="date" name="from" value={form.from} onChange={handleChange} className="w-full border rounded px-2 py-1" required />
             </div>
-          </div>
+            <div className="mb-2">
+              <label className="block mb-1">To</label>
+              <input type="date" name="to" value={form.to} onChange={handleChange} className="w-full border rounded px-2 py-1" required />
+            </div>
+            <div className="mb-2">
+              <label className="block mb-1">Days</label>
+              <input type="number" name="days" value={form.days} onChange={handleChange} className="w-full border rounded px-2 py-1" min={1} required />
+            </div>
+            <div className="mb-2">
+              <label className="block mb-1">Reason</label>
+              <input type="text" name="reason" value={form.reason} onChange={handleChange} className="w-full border rounded px-2 py-1" required />
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <button type="button" className="px-4 py-2" onClick={() => setShowModal(false)}>Cancel</button>
+              <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+            </div>
+          </form>
         </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-yellow-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Pending Leaves</p>
-              <p className="text-xl font-semibold text-gray-800 mt-1">2</p>
-            </div>
-            <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-              <Clock className="h-4 w-4 text-yellow-600" />
-            </div>
-          </div>
+      )}
+      <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="bg-white p-4 rounded shadow text-center">
+          <div className="font-bold">Available Leaves</div>
+          <div className="text-2xl">18</div>
         </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-green-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Approved Leaves</p>
-              <p className="text-xl font-semibold text-gray-800 mt-1">5</p>
-            </div>
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle className="h-4 w-4 text-green-600" />
-            </div>
-          </div>
+        <div className="bg-white p-4 rounded shadow text-center">
+          <div className="font-bold">Pending Leaves</div>
+          <div className="text-2xl">2</div>
         </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-red-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Rejected Leaves</p>
-              <p className="text-xl font-semibold text-gray-800 mt-1">1</p>
-            </div>
-            <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-              <XCircle className="h-4 w-4 text-red-600" />
-            </div>
-          </div>
+        <div className="bg-white p-4 rounded shadow text-center">
+          <div className="font-bold">Approved Leaves</div>
+          <div className="text-2xl">5</div>
         </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-purple-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Leaves</p>
-              <p className="text-xl font-semibold text-gray-800 mt-1">25</p>
-            </div>
-            <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-              <Calendar className="h-4 w-4 text-purple-600" />
-            </div>
-          </div>
+        <div className="bg-white p-4 rounded shadow text-center">
+          <div className="font-bold">Rejected Leaves</div>
+          <div className="text-2xl">1</div>
         </div>
       </div>
-
-      {/* Leave Balance Section - Individual Boxes */}
-      <div className="space-y-3">
-        <h3 className="text-base font-semibold text-gray-800">Leave Balance</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Casual Leave */}
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-blue-500">
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-gray-700">Casual Leave</span>
-                <span className="text-sm font-medium text-gray-600">Used: 4</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="h-2 rounded-full bg-blue-500"
-                  style={{ width: `${calculateProgress(4, 12)}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 font-medium">
-                <span>Total: 12</span>
-                <span>Balance: 8</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Sick Leave */}
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-green-500">
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-gray-700">Sick Leave</span>
-                <span className="text-sm font-medium text-gray-600">Used: 2</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="h-2 rounded-full bg-green-500"
-                  style={{ width: `${calculateProgress(2, 10)}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 font-medium">
-                <span>Total: 10</span>
-                <span>Balance: 8</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Annual Leave */}
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-purple-500">
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-gray-700">Annual Leave</span>
-                <span className="text-sm font-medium text-gray-600">Used: 5</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="h-2 rounded-full bg-purple-500"
-                  style={{ width: `${calculateProgress(5, 15)}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 font-medium">
-                <span>Total: 15</span>
-                <span>Balance: 10</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Unpaid Leave */}
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-gray-500">
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-gray-700">Unpaid Leave</span>
-                <span className="text-sm font-medium text-gray-600">Used: 0</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="h-2 rounded-full bg-gray-500"
-                  style={{ width: `${calculateProgress(0, 1)}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 font-medium">
-                <span>Total: ∞</span>
-                <span>Balance: 0</span>
-              </div>
-            </div>
-          </div>
+      <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="bg-white p-4 rounded shadow">
+          <div className="font-bold">Casual Leave</div>
+          <div>Used: 4</div>
+          <div>Balance: 8</div>
+          <div className="text-xs text-gray-500">Total: 12</div>
+        </div>
+        <div className="bg-white p-4 rounded shadow">
+          <div className="font-bold">Sick Leave</div>
+          <div>Used: 2</div>
+          <div>Balance: 8</div>
+          <div className="text-xs text-gray-500">Total: 10</div>
+        </div>
+        <div className="bg-white p-4 rounded shadow">
+          <div className="font-bold">Annual Leave</div>
+          <div>Used: 5</div>
+          <div>Balance: 10</div>
+          <div className="text-xs text-gray-500">Total: 15</div>
+        </div>
+        <div className="bg-white p-4 rounded shadow">
+          <div className="font-bold">Unpaid Leave</div>
+          <div>Used: 0</div>
+          <div>Balance: 0</div>
+          <div className="text-xs text-gray-500">Total: 0</div>
         </div>
       </div>
-
-      {/* Leave Requests Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-gray-200">
-          <h3 className="text-base font-semibold text-gray-800">Leave Requests</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Leave Type
-                </th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  From
-                </th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  To
-                </th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Days
-                </th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Reason
-                </th>
-                <th className="px-5 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Status
-                </th>
+      <div className="bg-white p-4 rounded shadow">
+        <div className="font-bold mb-2">Leave Requests</div>
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b">
+              <th>Leave Type</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Days</th>
+              <th>Reason</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaveRequests.map((req, idx) => (
+              <tr key={idx} className="border-b">
+                <td>{req.type}</td>
+                <td>{req.from}</td>
+                <td>{req.to}</td>
+                <td>{req.days}</td>
+                <td>{req.reason}</td>
+                <td>
+                  <span className={
+                    req.status === 'Approved' ? 'text-green-600' : req.status === 'Pending' ? 'text-yellow-600' : 'text-red-600'
+                  }>{req.status}</span>
+                </td>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {leaveData.map((leave, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-5 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {leave.type}
-                  </td>
-                  <td className="px-5 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {leave.from}
-                  </td>
-                  <td className="px-5 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {leave.to}
-                  </td>
-                  <td className="px-5 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {leave.days}
-                  </td>
-                  <td className="px-5 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {leave.reason}
-                  </td>
-                  <td className="px-5 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(leave.status)}`}>
-                      {leave.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
-      </div>
-    </div>
+    </Layout>
   );
 };
 
