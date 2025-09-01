@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import Layout from '../common-components/layout/Layout';
+import { useState } from 'react';
+import { Header } from '../common-components/header';
+import { Sidebar } from '../common-components/sidebar';
+import Button from '../common-components/button';
 
 type WeeklyHour = { day: string; hours: number };
 type Activity = { date: string; checkIn: string; checkOut: string; workHours: string; location: string; status: string };
@@ -55,64 +57,99 @@ const Attendance = () => {
   };
 
   return (
-    <Layout>
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold mb-2">Attendance Tracking</h2>
-        <div className="flex gap-4 mb-4">
-          <div className="bg-white p-4 rounded shadow flex-1">
-            <div className="mb-2">Check In Time: <span className="font-bold">{checkInTime || '--:--:--'}</span></div>
-            <div className="mb-2">Check Out Time: <span className="font-bold">{checkOutTime || '--:--:--'}</span></div>
-            <div className="flex gap-4 mt-4">
-              <button onClick={handleCheckIn} disabled={checkedIn} className="bg-green-600 text-white px-4 py-2 rounded">Check In</button>
-              <button onClick={handleCheckOut} disabled={!checkedIn} className="bg-red-600 text-white px-4 py-2 rounded">Check Out</button>
-            </div>
-            <div className="mt-4 bg-yellow-50 p-2 rounded text-sm">Remote Work Verification: Your location has been verified for remote work.</div>
-          </div>
-          <div className="bg-white p-4 rounded shadow flex-1">
-            <div className="font-bold mb-2">Weekly Hours</div>
-            <div>
-              {weeklyHours.map((wh, idx) => (
-                <div key={idx} className="flex items-center mb-1">
-                  <span className="w-10">{wh.day}</span>
-                  <div className="flex-1 h-3 bg-blue-100 rounded mx-2">
-                    <div style={{ width: `${wh.hours * 12}%` }} className="h-3 bg-blue-500 rounded"></div>
+    <div className="flex min-h-screen bg-gray-50">
+      <Sidebar />
+      <div className="flex-1 ml-64">
+        <Header title="Attendance Tracking" showSearchBar={false} searchQuery="" setSearchQuery={() => {}} />
+        <div className="p-8">
+          <div className="grid grid-cols-3 gap-6 mb-8">
+            <div className="col-span-2">
+              <div className="bg-white rounded-lg shadow p-6 mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-semibold">Wednesday, August 20, 2025</span>
+                  <span className="text-sm">11:22:12 AM</span>
+                  <div>
+                    <Button label="Office" variant="btn-neutral" className="mr-2" />
+                    <Button label="Remote" variant="btn-primary" />
                   </div>
-                  <span className="w-10 text-right">{wh.hours}h</span>
                 </div>
-              ))}
+                <div className="grid grid-cols-2 gap-6 mb-4">
+                  <div className="bg-gray-50 rounded p-4 text-center">
+                    <div className="mb-2 font-semibold">Check In Time</div>
+                    <div className="text-2xl mb-2">{checkInTime || '--:--:--'}</div>
+                  </div>
+                  <div className="bg-gray-50 rounded p-4 text-center">
+                    <div className="mb-2 font-semibold">Check Out Time</div>
+                    <div className="text-2xl mb-2">{checkOutTime || '--:--:--'}</div>
+                  </div>
+                </div>
+                <div className="flex gap-4 justify-center mb-4">
+                  <Button onClick={handleCheckIn} disabled={checkedIn} label="Check In" variant="btn-accent-success" className="px-6 py-2 text-lg" />
+                  <Button onClick={handleCheckOut} disabled={!checkedIn} label="Check Out" variant="btn-accent-danger" className="px-6 py-2 text-lg" />
+                </div>
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-sm mb-2">
+                  <span className="font-semibold">Remote Work Verification</span><br />
+                  Your location has been verified for remote work. Please ensure you're available during working hours.
+                </div>
+              </div>
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="font-bold mb-4 text-lg">Recent Activity</h3>
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="border-b">
+                      <th>Date</th>
+                      <th>Check In</th>
+                      <th>Check Out</th>
+                      <th>Work Hours</th>
+                      <th>Location</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recentActivity.map((act, idx) => (
+                      <tr key={idx} className="border-b">
+                        <td>{act.date}</td>
+                        <td>{act.checkIn}</td>
+                        <td>{act.checkOut}</td>
+                        <td>{act.workHours}</td>
+                        <td>{act.location}</td>
+                        <td><span className="text-green-600">{act.status}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div className="mt-2 text-xs">Total Hours: 38.7h<br />Average Daily: 7.7h</div>
+            <div className="flex flex-col gap-6">
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="font-bold mb-4 text-lg">Weekly Hours</h3>
+                <div>
+                  {weeklyHours.map((wh, idx) => (
+                    <div key={idx} className="flex items-center mb-1">
+                      <span className="w-10">{wh.day}</span>
+                      <div className="flex-1 h-3 bg-blue-100 rounded mx-2">
+                        <div style={{ width: `${wh.hours * 12}%` }} className="h-3 bg-blue-500 rounded"></div>
+                      </div>
+                      <span className="w-10 text-right">{wh.hours}h</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-2 text-xs">Total Hours: 38.7h<br />Average Daily: 7.7h</div>
+              </div>
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="font-bold mb-4 text-lg">Today Activity <span className="text-xs text-blue-500 ml-2 cursor-pointer">View All</span></h3>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2"><span className="text-red-600 font-bold">●</span> Checked Out <span className="text-xs text-gray-500 ml-2">10:15 PM</span></div>
+                  <div className="flex items-center gap-2"><span className="text-green-600 font-bold">●</span> Checked In <span className="text-xs text-gray-500 ml-2">2:15 PM</span></div>
+                  <div className="flex items-center gap-2"><span className="text-red-600 font-bold">●</span> Checked Out <span className="text-xs text-gray-500 ml-2">10:00 PM</span></div>
+                  <div className="flex items-center gap-2"><span className="text-green-600 font-bold">●</span> Checked In <span className="text-xs text-gray-500 ml-2">10:00 AM</span></div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="bg-white p-4 rounded shadow">
-          <div className="font-bold mb-2">Recent Activity</div>
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b">
-                <th>Date</th>
-                <th>Check In</th>
-                <th>Check Out</th>
-                <th>Work Hours</th>
-                <th>Location</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentActivity.map((act, idx) => (
-                <tr key={idx} className="border-b">
-                  <td>{act.date}</td>
-                  <td>{act.checkIn}</td>
-                  <td>{act.checkOut}</td>
-                  <td>{act.workHours}</td>
-                  <td>{act.location}</td>
-                  <td><span className="text-green-600">{act.status}</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

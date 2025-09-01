@@ -75,3 +75,22 @@
   background: rgba(255, 255, 255, 0.1);
   transform: translateX(2px);
 }
+
+/* Leave cards styling with color palette */
+.leave-card {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.leave-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.leave-balance-card {
+  transition: all 0.3s ease;
+}
+
+.leave-balance-card:hover {
+  transform: scale(1.02);
+}
