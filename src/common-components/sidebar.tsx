@@ -46,7 +46,7 @@ export function Sidebar() {
               }`}
             >
               <Clock className="h-5 w-5" />
-              <span>Check In/Out</span>
+              <span>Attendance</span>
             </Link>
           </li>
           <li>
