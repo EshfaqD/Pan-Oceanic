@@ -2,55 +2,28 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
-  Outlet,
 } from "react-router-dom";
 import { Sidebar } from "./common-components/sidebar";
-import { Header } from "./common-components/header";
-
+import Dashboard from "./pages/dashboard";
+import Attendance from "./pages/attendance";
+import Leaves from "./pages/leaves";
 import "./App.css";
-import { routes } from "./config/routes";
-
-const DashboardLayout = () => {
-  const location = useLocation();
-
-  const currentRoute = routes.find(
-    (route) =>
-      route.path === location.pathname ||
-      (route.index && location.pathname === "/")
-  );
-
-  const currentTitle = currentRoute?.title || "HR Payroll System";
-  const showSearchBar = currentRoute?.showSearchBar || false;
-
-  return (
-    <div className="bg-gray-100 min-h-screen">
-      <Sidebar />
-      <div className="pl-64">
-        <Header title={currentTitle} showSearchBar={showSearchBar} />
-        <main className="p-6">
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
-};
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              element={<route.component />}
-              index={route.index}
-            />
-          ))}
-        </Route>
-      </Routes>
+      <div className="bg-gray-100 min-h-screen">
+        <Sidebar />
+        <div className="pl-64">
+          <main>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/attendance" element={<Attendance />} />
+              <Route path="/leaves" element={<Leaves />} />
+            </Routes>
+          </main>
+        </div>
+      </div>
     </Router>
   );
 }

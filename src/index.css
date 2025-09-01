@@ -7,6 +7,60 @@
   color: white;
 }
 
+.primary {
+  background-color: #639CCE;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #639CCE;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #5282ac;
+}
+
+/*button designs*/
+.btn-secondary {
+  background-color: #E4864C;
+  color: white;
+}
+.btn-secondary:hover {
+  background-color: #b3693b;
+}
+
+.btn-neutral {
+  background-color: #6B7280;
+  color: white;
+}
+.btn-neutral:hover {
+  background-color: #4b505a;
+}
+
+.btn-accent-deep {
+  background-color: #365A79;
+  color: white;
+}
+.btn-accent-deep:hover {
+  background-color: #213649;
+}
+
+.btn-accent-success {
+  background-color: #4C9E6A;
+  color: white;
+}
+.btn-accent-success:hover {
+  background-color: #336a47;
+}
+
+.btn-accent-danger {
+  background-color: #B95050;
+  color: white;
+}
+.btn-accent-danger:hover {
+  background-color: #753232;
+}
+
 /* Additional styling for better visual hierarchy */
 .sidebar-active {
   background: rgba(255, 255, 255, 0.2);

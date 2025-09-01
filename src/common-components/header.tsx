@@ -1,47 +1,66 @@
-import { Bell, LogOut, User } from "lucide-react";
+import { Search, Bell, Mail, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface HeaderProps {
   title: string;
-  showSearchBar?: boolean;
+  showSearchBar: boolean;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
 export function Header({
   title,
-  showSearchBar = false,
+  showSearchBar,
+  searchQuery,
+  setSearchQuery,
 }: HeaderProps) {
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm">
+    <header className="bg-white border-b border-gray-200">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center py-2">
-          <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
+          <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
         </div>
-        
-        <div className="flex items-center gap-4">
-          {/* Notifications */}
-          <button className="relative p-2 rounded-full hover:bg-gray-100 transition-colors">
-            <Bell className="h-5 w-5 text-gray-600" />
-            <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full flex items-center justify-center">
-              <span className="text-xs text-white font-medium">3</span>
-            </span>
-          </button>
+        <div className="flex items-center gap-3">
+          <div
+            className={`relative ${showSearchBar ? "visible" : "invisible"}`}
+          >
+            <input
+              type="text"
+              placeholder="Search employees..."
+              className="pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              disabled={!showSearchBar}
+            />
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+          </div>
 
-          {/* Employee Profile Section */}
-          <div className="flex items-center gap-3 ml-4 pl-4 border-l border-gray-200">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full custom-blue flex items-center justify-center">
-                <User className="h-5 w-5 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-gray-800">John Doe</span>
-                <span className="text-xs text-gray-500">Software Engineer</span>
-              </div>
-            </div>
-            
-            {/* Logout Button */}
-            <button className="p-2 rounded-full hover:bg-gray-100 transition-colors ml-2">
-              <LogOut className="h-4 w-4 text-gray-600" />
-            </button>
+          <button className="p-2 rounded-full hover:bg-gray-100">
+            <Bell className="h-5 w-5 text-gray-600" />
+          </button>
+          <button className="p-2 rounded-full hover:bg-gray-100">
+            <Mail className="h-5 w-5 text-gray-600" />
+          </button>
+          <Link to="/settings">
+          <button className="p-2 rounded-full hover:bg-gray-100">
+            <Settings className="h-5 w-5 text-gray-600" />
+          </button>
+          </Link>
+          <div className="flex items-center gap-2 ml-4">
+            {(() => {
+              const userName = "Admin User";
+              const firstLetter = userName.charAt(0).toUpperCase();
+              return (
+                <>
+                  <div className="w-8 h-8 rounded-full primary flex items-center justify-center text-sm font-semibold">
+                    {firstLetter}
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {userName}
+                  </span>
+                </>
+              );
+            })()}
           </div>
         </div>
       </div>
