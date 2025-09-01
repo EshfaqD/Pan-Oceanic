@@ -44,13 +44,13 @@ const Leaves = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Approved":
-        return "text-white" + " " + "btn-accent-success";
+        return "text-green-600 bg-green-100";
       case "Pending":
-        return "text-white" + " " + "btn-secondary";
+        return "text-yellow-600 bg-yellow-100";
       case "Rejected":
-        return "text-white" + " " + "btn-accent-danger";
+        return "text-red-600 bg-red-100";
       default:
-        return "text-white" + " " + "btn-neutral";
+        return "text-gray-600 bg-gray-100";
     }
   };
 
@@ -82,10 +82,10 @@ const Leaves = () => {
       <div className="p-6 space-y-4">
         {/* Header with Breadcrumb and Request Leave Button */}
         <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <span className="breadcrumb-text">Dashboard</span>
-            <span className="mx-2 breadcrumb-text">/</span>
-            <span className="breadcrumb-active">Leaves</span>
+          <div className="flex items-center text-sm text-gray-500">
+            <span>Dashboard</span>
+            <span className="mx-2">/</span>
+            <span className="text-gray-800 font-medium">Leaves</span>
           </div>
           <Button 
             label="Request Leave"
@@ -96,62 +96,62 @@ const Leaves = () => {
 
         {/* Leave Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderColor: '#639CCE' }}>
+          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-blue-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-secondary tracking-wide">Available Leaves</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Available Leaves</p>
                 <p className="card-number mt-1">18</p>
               </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(99, 156, 206, 0.2)' }}>
-                <FileText className="h-4 w-4" style={{ color: '#639CCE' }} />
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <FileText className="h-4 w-4 text-blue-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderColor: '#E4864C' }}>
+          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-yellow-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-secondary tracking-wide">Pending Leaves</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Pending Leaves</p>
                 <p className="card-number mt-1">2</p>
               </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(228, 134, 76, 0.2)' }}>
-                <Clock className="h-4 w-4" style={{ color: '#E4864C' }} />
+              <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                <Clock className="h-4 w-4 text-yellow-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderColor: '#4C9E6A' }}>
+          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-green-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-secondary tracking-wide">Approved Leaves</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Approved Leaves</p>
                 <p className="card-number mt-1">5</p>
               </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(76, 158, 106, 0.2)' }}>
-                <CheckCircle className="h-4 w-4" style={{ color: '#4C9E6A' }} />
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="h-4 w-4 text-green-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderColor: '#B95050' }}>
+          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-red-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-secondary tracking-wide">Rejected Leaves</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Rejected Leaves</p>
                 <p className="card-number mt-1">1</p>
               </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(185, 80, 80, 0.2)' }}>
-                <XCircle className="h-4 w-4" style={{ color: '#B95050' }} />
+              <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                <XCircle className="h-4 w-4 text-red-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4" style={{ borderColor: '#365A79' }}>
+          <div className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-gray-500">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-secondary tracking-wide">Total Leaves</p>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Leaves</p>
                 <p className="card-number mt-1">25</p>
               </div>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(54, 90, 121, 0.2)' }}>
-                <Calendar className="h-4 w-4" style={{ color: '#365A79' }} />
+              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                <Calendar className="h-4 w-4 text-gray-600" />
               </div>
             </div>
           </div>
@@ -159,20 +159,20 @@ const Leaves = () => {
 
         {/* Leave Balance Section */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="section-title">Leave Balance</h3>
+          <h3 className="text-base font-semibold text-gray-800">Leave Balance</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="card-title">Casual Leave</span>
-                <span className="text-primary">Used: 4</span>
+                <span className="text-sm font-semibold text-gray-700">Casual Leave</span>
+                <span className="text-sm font-medium text-gray-600">Used: 4</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div 
-                  className="h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${calculateProgress(4, 12)}%`, backgroundColor: '#639CCE' }}
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${calculateProgress(4, 12)}%` }}
                 ></div>
               </div>
-              <div className="flex justify-between text-muted">
+              <div className="flex justify-between text-xs text-gray-500 font-medium">
                 <span>0</span>
                 <span>12</span>
               </div>
@@ -180,16 +180,16 @@ const Leaves = () => {
 
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="card-title">Sick Leave</span>
-                <span className="text-primary">Used: 2</span>
+                <span className="text-sm font-semibold text-gray-700">Sick Leave</span>
+                <span className="text-sm font-medium text-gray-600">Used: 2</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div 
-                  className="h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${calculateProgress(2, 10)}%`, backgroundColor: '#4C9E6A' }}
+                  className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${calculateProgress(2, 10)}%` }}
                 ></div>
               </div>
-              <div className="flex justify-between text-muted">
+              <div className="flex justify-between text-xs text-gray-500 font-medium">
                 <span>0</span>
                 <span>10</span>
               </div>
@@ -197,16 +197,16 @@ const Leaves = () => {
 
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="card-title">Annual Leave</span>
-                <span className="text-primary">Used: 5</span>
+                <span className="text-sm font-semibold text-gray-700">Annual Leave</span>
+                <span className="text-sm font-medium text-gray-600">Used: 5</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div 
-                  className="h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${calculateProgress(5, 15)}%`, backgroundColor: '#E4864C' }}
+                  className="bg-purple-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${calculateProgress(5, 15)}%` }}
                 ></div>
               </div>
-              <div className="flex justify-between text-muted">
+              <div className="flex justify-between text-xs text-gray-500 font-medium">
                 <span>0</span>
                 <span>15</span>
               </div>
@@ -214,13 +214,13 @@ const Leaves = () => {
 
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="card-title">Unpaid Leave</span>
-                <span className="text-primary">Used: 0</span>
+                <span className="text-sm font-semibold text-gray-700">Unpaid Leave</span>
+                <span className="text-sm font-medium text-gray-600">Used: 0</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                <div className="h-2 rounded-full w-0" style={{ backgroundColor: '#6B7280' }}></div>
+                <div className="bg-gray-400 h-2 rounded-full w-0"></div>
               </div>
-              <div className="flex justify-between text-muted">
+              <div className="flex justify-between text-xs text-gray-500 font-medium">
                 <span>0</span>
                 <span>0</span>
               </div>
@@ -230,27 +230,27 @@ const Leaves = () => {
 
         {/* Leave Requests Table */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <h3 className="section-title mb-4">Recent Leave Requests</h3>
+          <h3 className="text-base font-semibold text-gray-800 mb-4">Recent Leave Requests</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="px-6 py-3 text-left text-secondary tracking-wider">Leave Type</th>
-                  <th className="px-6 py-3 text-left text-secondary tracking-wider">From</th>
-                  <th className="px-6 py-3 text-left text-secondary tracking-wider">To</th>
-                  <th className="px-6 py-3 text-left text-secondary tracking-wider">Days</th>
-                  <th className="px-6 py-3 text-left text-secondary tracking-wider">Reason</th>
-                  <th className="px-6 py-3 text-left text-secondary tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Leave Type</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">From</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">To</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Days</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Reason</th>
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {leaveData.map((leave, index) => (
                   <tr key={index} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-primary font-semibold">{leave.type}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-primary">{leave.from}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-primary">{leave.to}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-primary">{leave.days}</td>
-                    <td className="px-6 py-4 text-primary">{leave.reason}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{leave.type}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{leave.from}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{leave.to}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{leave.days}</td>
+                    <td className="px-6 py-4 text-sm text-gray-700">{leave.reason}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(leave.status)}`}>
                         {getStatusIcon(leave.status)}

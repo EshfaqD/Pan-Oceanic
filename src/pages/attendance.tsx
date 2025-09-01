@@ -66,8 +66,8 @@ const Attendance = () => {
             <div className="col-span-2">
               <div className="bg-white rounded-lg shadow p-6 mb-6">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-semibold">Wednesday, August 20, 2025</span>
-                  <span className="text-sm">11:22:12 AM</span>
+                  <span className="card-title">Wednesday, August 20, 2025</span>
+                  <span className="text-primary">11:22:12 AM</span>
                   <div>
                     <Button label="Office" variant="btn-neutral" className="mr-2" />
                     <Button label="Remote" variant="btn-primary" />
@@ -75,45 +75,45 @@ const Attendance = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-6 mb-4">
                   <div className="bg-gray-50 rounded p-4 text-center">
-                    <div className="mb-2 font-semibold">Check In Time</div>
-                    <div className="text-2xl mb-2">{checkInTime || '--:--:--'}</div>
+                    <div className="mb-2 card-title">Check In Time</div>
+                    <div className="card-number mb-2">{checkInTime || '--:--:--'}</div>
                   </div>
                   <div className="bg-gray-50 rounded p-4 text-center">
-                    <div className="mb-2 font-semibold">Check Out Time</div>
-                    <div className="text-2xl mb-2">{checkOutTime || '--:--:--'}</div>
+                    <div className="mb-2 card-title">Check Out Time</div>
+                    <div className="card-number mb-2">{checkOutTime || '--:--:--'}</div>
                   </div>
                 </div>
                 <div className="flex gap-4 justify-center mb-4">
                   <Button onClick={handleCheckIn} disabled={checkedIn} label="Check In" variant="btn-accent-success" className="px-6 py-2 text-lg" />
                   <Button onClick={handleCheckOut} disabled={!checkedIn} label="Check Out" variant="btn-accent-danger" className="px-6 py-2 text-lg" />
                 </div>
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-sm mb-2">
-                  <span className="font-semibold">Remote Work Verification</span><br />
-                  Your location has been verified for remote work. Please ensure you're available during working hours.
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded mb-2">
+                  <span className="card-title">Remote Work Verification</span><br />
+                  <span className="text-primary">Your location has been verified for remote work. Please ensure you're available during working hours.</span>
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="font-bold mb-4 text-lg">Recent Activity</h3>
+                <h3 className="section-title mb-4">Recent Activity</h3>
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b">
-                      <th>Date</th>
-                      <th>Check In</th>
-                      <th>Check Out</th>
-                      <th>Work Hours</th>
-                      <th>Location</th>
-                      <th>Status</th>
+                      <th className="text-secondary py-2">Date</th>
+                      <th className="text-secondary py-2">Check In</th>
+                      <th className="text-secondary py-2">Check Out</th>
+                      <th className="text-secondary py-2">Work Hours</th>
+                      <th className="text-secondary py-2">Location</th>
+                      <th className="text-secondary py-2">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {recentActivity.map((act, idx) => (
                       <tr key={idx} className="border-b">
-                        <td>{act.date}</td>
-                        <td>{act.checkIn}</td>
-                        <td>{act.checkOut}</td>
-                        <td>{act.workHours}</td>
-                        <td>{act.location}</td>
-                        <td><span className="text-green-600">{act.status}</span></td>
+                        <td className="text-primary py-2">{act.date}</td>
+                        <td className="text-primary py-2">{act.checkIn}</td>
+                        <td className="text-primary py-2">{act.checkOut}</td>
+                        <td className="text-primary py-2">{act.workHours}</td>
+                        <td className="text-primary py-2">{act.location}</td>
+                        <td className="py-2"><span className="text-green-600 text-primary">{act.status}</span></td>
                       </tr>
                     ))}
                   </tbody>

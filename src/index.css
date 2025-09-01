@@ -2,6 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font Standardization - Based on Header/Navbar Styling */
+.page-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.75rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.5rem;
+}
+
+.card-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.25rem;
+}
+
+.card-number {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.75rem;
+}
+
+.text-primary {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.25rem;
+}
+
+.text-secondary {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-muted {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+  line-height: 1rem;
+}
+
+.breadcrumb-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.25rem;
+}
+
+.breadcrumb-active {
+  font-size: 0.875rem;
+  color: #1f2937;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
 .custom-blue {
   background-color: #639CCE;
   color: white;
