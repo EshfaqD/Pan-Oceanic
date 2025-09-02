@@ -126,7 +126,7 @@
   background-color: #753232;
 }
 
-/*Eshfaq Additional styling for better visual hierarchy */
+/* EshfaqD Additional styling for better visual hierarchy */
 .sidebar-active {
   background: rgba(255, 255, 255, 0.2);
   border-right: 4px solid white;
@@ -141,7 +141,7 @@
   transform: translateX(2px);
 }
 
-/* Leave cards styling with color palette */
+/* EshfaqD Leave cards styling with color palette */
 .leave-card {
   transition: all 0.3s ease;
   border: 2px solid transparent;
